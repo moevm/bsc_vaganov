@@ -5,12 +5,14 @@ import seaborn as sns
 from sklearn import tree
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.metrics import precision_score
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, Birch, MiniBatchKMeans
 from scipy.cluster.hierarchy import linkage, dendrogram
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.manifold import TSNE
 from sklearn.cluster import DBSCAN
 from sklearn.decomposition import PCA
+from itertools import cycle
+import matplotlib.colors as colors
 
 #data = pd.read_csv('D:/Users/nikva/PycharmProjects/ml/train_data_tree.csv')
 #X = data.drop(['num'], axis=1)
@@ -27,7 +29,7 @@ rawdata = pd.read_json('/home/woghan/Desktop/ml/leninka_scrapper/rawdata.json')
 freqdata = pd.read_json('/home/woghan/Desktop/ml/leninka_scrapper/freqdata.json')
 data = pd.merge(rawdata, freqdata, on="paperPath")
 X = data.drop(
-    ['paperPath', 'paperUrl', 'paperTitle', 'journalName', 'journalViews'], axis=1)
+    ['paperPath', 'paperUrl', 'paperTitle', 'journalName', 'journalViews', 'journalDownloads', 'journalHirch'], axis=1)
 
 
 def KMeansModel():
@@ -36,6 +38,9 @@ def KMeansModel():
     all_prediction = model.predict(X)
     unique, counts = np.unique(all_prediction, return_counts=True)
     print(dict(zip(unique, counts)))
+    for i in range(1, X.shape[0]):
+        if model.predict(X)[i] == 1:
+            print(i)
 
 
 def linkageModel():
@@ -69,6 +74,7 @@ def plot_dendrogram(model, **kwargs):
 def agglomerativeClusteringModel():
     model2 = AgglomerativeClustering(distance_threshold=0, n_clusters=None)
     model2 = model2.fit(X)
+    print(model2.predict(X))
     plt.title('Hierarchical Clustering Dendrogram')
     # plot the top three levels of the dendrogram
     plot_dendrogram(model2, truncate_mode='level', p=3)
@@ -78,11 +84,10 @@ def agglomerativeClusteringModel():
 
 def TSNETest():
     # Метод визуализации путем понижения размерности
-    model3 = TSNE(learning_rate=100, method='exact')
+    model3 = TSNE(n_components=2, verbose=1, perplexity=50, n_iter=1000, learning_rate=200)
     transformed = model3.fit_transform(X)
     x_axis = transformed[:, 0]
     y_axis = transformed[:, 1]
-
     plt.scatter(x_axis, y_axis)
     plt.show()
 
@@ -104,4 +109,22 @@ def dbscanModel():
     plt.show()
 
 
-TSNETest()
+def birchModel():
+    birch_model = Birch()
+    birch_model.fit(X)
+    # Plot result
+    labels = birch_model.labels_
+    centroids = birch_model.subcluster_centers_
+    n_clusters = np.unique(labels).size
+    print("n_clusters : %d" % n_clusters)
+    print(birch_model.predict(X))
+    for i in range(1, X.shape[0]):
+        if birch_model.predict(X)[i] == 1:
+            print(i)
+
+
+KMeansModel()
+#linkageModel()
+#agglomerativeClusteringModel()
+#TSNETest()
+#birchModel()

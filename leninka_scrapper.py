@@ -11,7 +11,7 @@ import json
 
 disciplineLinks = ["https://cyberleninka.ru/article/c/computer-and-information-sciences/"]
 baseLink = "https://cyberleninka.ru"
-baseFolder = "papers/"
+baseFolder = "/home/woghan/Desktop/ml/leninka_scrapper/papers/"
 baseName = "paper"
 baseJournalFolder = "journal"
 baseJournalName = "journal"
@@ -19,7 +19,7 @@ baseJournalName = "journal"
 counter = 1
 papersList = []
 for disc in disciplineLinks:
-    for page in range(1, 10):
+    for page in range(1, 51):
         print("page #" + str(page))
         html = urlopen(disc + str(page))
         print(disc + str(page))
@@ -48,10 +48,9 @@ for disc in disciplineLinks:
                 'journalViews':  int(statItems[0]),
                 'journalDownloads': int(statItems[1]),
                 'journalHirch': int(statItems[2]),
-                'paperPath': baseFolder + baseName + str(counter),
+                'paperPath': baseFolder + baseName + str(counter) + ".pdf",
                 'paperUrl': elem[:-4],
-                'paperTitle': paperTitle,
-                'paperRawText': paperText
+                'paperTitle': paperTitle
             }
             papersList.append(paperObj)
 
