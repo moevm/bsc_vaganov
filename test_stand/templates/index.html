@@ -13,14 +13,15 @@
 
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post" class="w3-center">
-        <textarea class="w3-input" type="text" name="text" placeholder="Put your paper text here" required="required" style="min-height: 400px"></textarea><br>
-        <button type="submit" class="w3-button w3-black">Predict</button>
+        <textarea class="w3-input" type="text" name="text" id="paper" placeholder="Put your paper text here" required="required" style="min-height: 400px"></textarea><br>
+        <button type="submit" class="w3-button w3-black" id="button">Predict</button>
     </form>
 
    <br>
    <br>
+   <div id="result">
    {{ prediction_text }}
-
+    </div>
  </div>
 </body>
 </html>

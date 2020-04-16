@@ -23,8 +23,8 @@ import pickle
 class ModelHandler:
 
     def __init__(self):
-        self.rawdata = pd.read_json('bsc_vaganov/data_collect_and_preprocess/rawdata.json')
-        self.freqdata = pd.read_json('bsc_vaganov/data_collect_and_preprocess/freqdata.json')
+        self.rawdata = pd.read_json('rawdata.json')
+        self.freqdata = pd.read_json('freqdata.json')
         self.data = pd.merge(self.rawdata, self.freqdata, on="paperPath")
         self.X = self.data.drop(['paperPath', 'paperUrl', 'paperTitle', 'journalName', 'journalViews', 'journalDownloads', 'journalHirch', 'isGood'], axis=1)
         self.y = self.data.isGood
@@ -51,7 +51,7 @@ class ModelHandler:
     def decisionTreeCreate(self, max_depth=9, min_samples_leaf=4, min_samples_split=4):
         clf = tree.DecisionTreeClassifier(max_depth=max_depth, min_samples_leaf=min_samples_leaf, min_samples_split=min_samples_split)
         clf.fit(self.X, self.y)
-        pickle.dump(clf, open('bsc_vaganov/model/model.pkl', 'wb'))
+        pickle.dump(clf, open('model/model.pkl', 'wb'))
 
     def randomForestTest(self, n_jobs=2, criterion='entropy', n_estimators=10, max_depth=14):
         clf = RandomForestClassifier(n_jobs=n_jobs, criterion=criterion, n_estimators=n_estimators, max_depth=max_depth)

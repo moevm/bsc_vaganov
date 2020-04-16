@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-from urllib.request import urlopen
+from urllib.request import urlopen, urlretrieve
 from bs4 import BeautifulSoup as BS
 import json
 
@@ -10,14 +10,13 @@ class LeninkaScrapper:
     def __init__(self):
         self.disciplineLinks = ["https://cyberleninka.ru/article/c/computer-and-information-sciences/"]
         self.baseLink = "https://cyberleninka.ru"
-        self.baseFolder = "/home/woghan/Desktop/ml/leninka_scrapper/papers/"
+        self.baseFolder = "papers/"
         self.baseName = "paper"
 
-    def scrap(self, paper_views_range=150, paper_downloads_range=20, pages=10):
-        counter = 1
+    def scrap(self, paper_views_range=150, paper_downloads_range=20, pages_min=1, pages_max=10, counter=1):
         papersList = []
         for disc in self.disciplineLinks:
-            for page in range(1, pages):
+            for page in range(pages_min, pages_max):
                 print("page #" + str(page))
                 html = urlopen(disc + str(page))
                 print(disc + str(page))
@@ -63,6 +62,7 @@ class LeninkaScrapper:
                         'isGood': isGood
                     }
                     papersList.append(paperObj)
+                    fileInfo = urlretrieve(elem, self.baseFolder + self.baseName + str(counter) + ".pdf")
                     counter+=1
 
         with open('rawdata.json', 'w', encoding='utf-8') as f:
