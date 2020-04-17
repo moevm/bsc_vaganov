@@ -12,26 +12,36 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST', 'GET'])
 def predict():
-    analysis = TFA()
-    paper_obj = analysis.analyseSinglePaper(request.form['text'])
-    prediction = model.predict(paper_obj)
-    print(prediction)
-    if str(prediction) == '[0]':
-        return render_template('index.html', prediction_text='Your paper is bad')
-    else:
-        return render_template('index.html', prediction_text='Your paper is good')
+    if request.method == 'POST':
+        analysis = TFA()
+        paper_obj = analysis.analyseSinglePaper(request.form['text'], False)
+        prediction = model.predict(paper_obj)
+        print(prediction)
+        if str(prediction) == '[0]':
+            return render_template('predict_text.html', prediction_text='Your paper is bad')
+        else:
+            return render_template('predict_text.html', prediction_text='Your paper is good')
+    elif request.method == 'GET':
+        return render_template('predict_text.html')
 
 
-@app.route('/results', methods=['POST'])
-def results():
-
-    data = request.get_json(force=True)
-    prediction = model.predict([np.array(list(data.values()))])
-
-    output = prediction[0]
-    return jsonify(output)
+@app.route('/predict_pdf', methods=['POST', 'GET'])
+def predict_pdf():
+    if request.method == 'POST':
+        analysis = TFA()
+        f = request.files['file']
+        f.save('/home/woghan/Desktop/bsc_vaganov/test_stand/samples/test.pdf')
+        paper_obj = analysis.analyseSinglePaper('/home/woghan/Desktop/bsc_vaganov/test_stand/samples/test.pdf', True)
+        prediction = model.predict(paper_obj)
+        print(prediction)
+        if str(prediction) == '[0]':
+            return render_template('predict_file.html', prediction_text='Your paper is bad')
+        else:
+            return render_template('predict_file.html', prediction_text='Your paper is good')
+    elif request.method == 'GET':
+        return render_template('predict_file.html')
 
 
 if __name__ == "__main__":

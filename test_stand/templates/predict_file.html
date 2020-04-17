@@ -1,0 +1,17 @@
+<html>
+   <body>
+    <div class="w3-container">
+     <div class="w3-display-middle">
+         <h1>Analyze my paper</h1>
+      <form action = "/predict_pdf" method = "POST" class="w3-container w3-card-8 w3-center" enctype = "multipart/form-data">
+         <input type = "file" class="w3-input" name = "file" />
+         <input type = "submit" class="w3-input"/>
+      </form>
+
+    <div id="result">
+   {{ prediction_text }}
+    </div>
+     </div>
+    </div>
+   </body>
+</html>

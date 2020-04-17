@@ -156,7 +156,12 @@ class TextFrequencyAnalyzer:
 
         return haveMethodDescription + havePaperKeyWords + haveReferences + haveProblemFormulation + haveConclusion + haveAnnotation
 
-    def analyseSinglePaper(self, text):
+    def analyseSinglePaper(self, paper, isFile):
+        if isFile:
+            text = self.getAllTextFromPdf(paper)
+        else:
+            text = paper
+
         wordList = re.sub("[^\w]", " ", text).split()
         bigramsList = ngrams(wordList, 2)
         wordList = [w.lower() for w in wordList]

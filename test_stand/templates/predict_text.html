@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Is my paper good?</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+ <div class="w3-container">
+	<h1>Analyze my paper</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}" method="post" class="w3-container w3-card-8 w3-center">
+        <div class="w3-group">
+            <textarea class="w3-input" type="text" name="text" id="paper" placeholder="Put your paper text here" required="required" style="min-height: 400px"></textarea><br>
+            <button type="submit" class="w3-button w3-black" id="button">Predict</button>
+        </div>
+    </form>
+
+   <br>
+   <br>
+   <div id="result">
+   {{ prediction_text }}
+    </div>
+ </div>
+</body>
+</html>

@@ -9,19 +9,13 @@
 
 <body>
  <div class="w3-container">
-	<h1>Analyze my paper</h1>
-
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post" class="w3-center">
-        <textarea class="w3-input" type="text" name="text" id="paper" placeholder="Put your paper text here" required="required" style="min-height: 400px"></textarea><br>
-        <button type="submit" class="w3-button w3-black" id="button">Predict</button>
-    </form>
-
-   <br>
-   <br>
-   <div id="result">
-   {{ prediction_text }}
-    </div>
+     <div class="w3-display-middle w3-center">
+         <h1>Analyze my paper</h1>
+         <div class="w3-bar">
+             <a href="/predict"><button class="w3-bar-item w3-button w3-black">Enter text</button></a>
+             <a href="/predict_pdf"><button class="w3-bar-item w3-button w3-teal">Upload pdf</button></a>
+         </div>
+     </div>
  </div>
 </body>
 </html>
