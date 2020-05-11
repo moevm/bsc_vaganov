@@ -1,29 +1,64 @@
-<!DOCTYPE html>
-<html >
-<head>
-  <meta charset="UTF-8">
-  <title>Is my paper good?</title>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-</head>
-
-<body>
- <div class="w3-container">
-	<h1>Analyze my paper</h1>
-
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}" method="post" class="w3-container w3-card-8 w3-center">
-        <div class="w3-group">
-            <textarea class="w3-input" type="text" name="text" id="paper" placeholder="Put your paper text here" required="required" style="min-height: 400px"></textarea><br>
-            <button type="submit" class="w3-button w3-black" id="button">Predict</button>
+{% extends 'base.html' %}
+{% block navbar %}
+<div class="w3-top">
+  <div class="w3-bar w3-blue-gray w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue-gray" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Главная</a>
+    <a href="/predict" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white ">Классифицировать текст</a>
+    <a href="/predict_pdf" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Классифицировать файл (pdf)</a>
+    <a href="/data" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Обучающая выборка</a>
+  </div>
+{% endblock %}
+{%  block content %}
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="">
+      <h1>Что это?</h1>
+      <h5 class="w3-padding-32">Веб-интерфейс, созданный для работы с классификатором научных статей. Классификатор является частичным аналогом человека-рецензента и позволяет получить бинарную оценку научной статьи - работа удовлетворяет требованиям к публикации или не удовлетворяет.</h5>
+        <h2>Примеры для демонстрации работы:</h2>
+        <div class="w3-bar w3-center">
+            <button id="sample1" class="w3-button w3-green w3-margin">Настоящая статья</button>
+            <button id="sample2" class="w3-button w3-green w3-margin">Работа отличника 1</button>
+            <button id="sample3" class="w3-button w3-green w3-margin">Работа отличника 2</button>
+            <button id="sample4" class="w3-button w3-green w3-margin">Работа отличника 3</button>
+            <button id="sample5" class="w3-button w3-green w3-margin">Работа отличника 4</button>
+            <button id="sample6" class="w3-button w3-red w3-margin">Ненаучная статья</button>
+            <button id="sample7" class="w3-button w3-red w3-margin">Корчеватель</button>
+            <button id="sample8" class="w3-button w3-red w3-margin">Статья троечника</button>
+            <form action="{{ url_for('predict')}}" method="post" class="w3-container w3-card-8 w3-center">
+                <div class="">
+                    <textarea class="w3-border w3-margin" type="text" name="text" id="paper" placeholder="Вставьте текст статьи" required="required" style="min-height: 400px; width:95%"></textarea><br>
+                    <button type="submit" class="w3-button w3-blue-gray" id="button">Отправить</button>
+                </div>
+            </form>
         </div>
-    </form>
 
-   <br>
-   <br>
-   <div id="result">
-   {{ prediction_text }}
+    {% if prediction_positive %}
+        <div class="w3-panel w3-green">
+            <h3>Статья удовлетворяет требованиям.</h3>
+            <p>Научная статья готова к публикации. Вероятность отнесения к классу - {{ prediction_positive }}</p>
+        </div>
+    {% elif prediction_negative %}
+        <div class="w3-panel w3-red">
+            <h3>Статья не удовлетворяет требованиям.</h3>
+            <p>Исправьте статью и попробуйте еще раз. Вероятность отнесения к классу - {{ prediction_negative }}</p>
+        </div>
+     {% elif error_message %}
+        <div class="w3-panel w3-red">
+            <h3>Ошибка! Введенный текст слишком короткий, невозможно классифицировать </h3>
+            <p>Попробуйте другой текст.</p>
+        </div>
+    {% endif %}
     </div>
- </div>
-</body>
-</html>
+  <div>
+      <h1>Результат</h1>
+        {% for row in recommends %}
+            <div class="w3-panel w3-gray">
+                <h3> {{ row }}</h3>
+            </div>
+        {% endfor %}
+  </div>
+  </div>
+</div>
+{% endblock %}

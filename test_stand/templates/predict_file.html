@@ -1,17 +1,53 @@
-<html>
-   <body>
-    <div class="w3-container">
-     <div class="w3-display-middle">
-         <h1>Analyze my paper</h1>
-      <form action = "/predict_pdf" method = "POST" class="w3-container w3-card-8 w3-center" enctype = "multipart/form-data">
-         <input type = "file" class="w3-input" name = "file" />
-         <input type = "submit" class="w3-input"/>
-      </form>
+{% extends 'base.html' %}
+{% block navbar %}
+<div class="w3-top">
+  <div class="w3-bar w3-blue-gray w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue-gray" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Главная</a>
+    <a href="/predict" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white ">Классифицировать текст</a>
+    <a href="/predict_pdf" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Классифицировать файл (pdf)</a>
+    <a href="/data" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Обучающая выборка</a>
+  </div>
+{% endblock %}
+{%  block content %}
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="">
+      <h1>Что это?</h1>
+      <h5 class="w3-padding-32">Веб-интерфейс, созданный для работы с классификатором научных статей. Классификатор является частичным аналогом человека-рецензента и позволяет получить бинарную оценку научной статьи - работа удовлетворяет требованиям к публикации или не удовлетворяет.</h5>
+        <div class="w3-bar w3-center">
+            <form action = "/predict_pdf" method = "POST" class="w3-bar w3-center" enctype = "multipart/form-data">
+                <input type = "file" class="w3-button w3-border w3-margin w3-blue-gray" name = "file"/><br>
+                <input type = "submit" class="w3-button w3-margin w3-blue-gray"value="Отправить"/>
+            </form>
+        </div>
 
-    <div id="result">
-   {{ prediction_text }}
+    {% if prediction_positive %}
+        <div class="w3-panel w3-green">
+            <h3>Статья удовлетворяет требованиям.</h3>
+            <p>Научная статья готова к публикации. Вероятность отнесения к классу - {{ prediction_positive }}</p>
+        </div>
+    {% elif prediction_negative %}
+        <div class="w3-panel w3-red">
+            <h3>Статья не удовлетворяет требованиям.</h3>
+            <p>Исправьте статью и попробуйте еще раз. Вероятность отнесения к классу - {{ prediction_negative }}</p>
+        </div>
+     {% elif error_message %}
+        <div class="w3-panel w3-red">
+            <h3>Ошибка! Невозможно прочитать файл. </h3>
+            <p>Попробуйте другой файл.</p>
+        </div>
+    {% endif %}
     </div>
-     </div>
-    </div>
-   </body>
-</html>
+  <div>
+      <h1>Результат</h1>
+        {% for row in recommends %}
+            <div class="w3-panel w3-gray">
+                <h3> {{ row }}</h3>
+            </div>
+        {% endfor %}
+  </div>
+  </div>
+</div>
+{% endblock %}
