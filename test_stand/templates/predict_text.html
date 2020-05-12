@@ -15,17 +15,18 @@
   <div class="w3-content">
     <div class="">
       <h1>Что это?</h1>
-      <h5 class="w3-padding-32">Веб-интерфейс, созданный для работы с классификатором научных статей. Классификатор является частичным аналогом человека-рецензента и позволяет получить бинарную оценку научной статьи - работа удовлетворяет требованиям к публикации или не удовлетворяет.</h5>
+      <h5 class="w3-padding-32">Веб-интерфейс, созданный для работы с классификатором научных статей. Классификатор является частичным аналогом рецензента и позволяет получить бинарную оценку научной статьи - работа удовлетворяет требованиям к публикации или не удовлетворяет.</h5>
         <h2>Примеры для демонстрации работы:</h2>
         <div class="w3-bar w3-center">
-            <button id="sample1" class="w3-button w3-green w3-margin">Настоящая статья</button>
-            <button id="sample2" class="w3-button w3-green w3-margin">Работа отличника 1</button>
-            <button id="sample3" class="w3-button w3-green w3-margin">Работа отличника 2</button>
-            <button id="sample4" class="w3-button w3-green w3-margin">Работа отличника 3</button>
-            <button id="sample5" class="w3-button w3-green w3-margin">Работа отличника 4</button>
+            <button id="sample1" class="w3-button w3-green w3-margin">Статья ВАК</button>
+            <button id="sample2" class="w3-button w3-green w3-margin">Статья с оценкой отл 1</button>
+            <button id="sample3" class="w3-button w3-green w3-margin">Статья с оценкой отл 2</button>
+            <button id="sample4" class="w3-button w3-green w3-margin">Статья с оценкой отл 3</button>
+            <button id="sample5" class="w3-button w3-green w3-margin">Статья с оценкой отл 4</button>
             <button id="sample6" class="w3-button w3-red w3-margin">Ненаучная статья</button>
             <button id="sample7" class="w3-button w3-red w3-margin">Корчеватель</button>
-            <button id="sample8" class="w3-button w3-red w3-margin">Статья троечника</button>
+            <button id="sample8" class="w3-button w3-red w3-margin">Статья с оценкой удовл</button>
+            <button id="sample9" class="w3-button w3-gray w3-margin">Статья Ваганов Н.</button>
             <form action="{{ url_for('predict')}}" method="post" class="w3-container w3-card-8 w3-center">
                 <div class="">
                     <textarea class="w3-border w3-margin" type="text" name="text" id="paper" placeholder="Вставьте текст статьи" required="required" style="min-height: 400px; width:95%"></textarea><br>
