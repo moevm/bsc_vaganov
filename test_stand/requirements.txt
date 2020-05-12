@@ -1,0 +1,9 @@
+bs4==0.0.1
+pandas
+numpy==1.18.2
+sklearn
+flask
+pymorphy2==0.8
+nltk
+textract
+textblob

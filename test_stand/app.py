@@ -1,11 +1,9 @@
-import numpy as np
-from flask import Flask, request, jsonify, render_template
 import pickle
-import pandas
+from flask import Flask, request, render_template
 from data_collect_and_preprocess.freq_analysis import TextFrequencyAnalyzer as TFA
 
-app = Flask(__name__)
-model = pickle.load(open('../model/model.pkl', 'rb'))
+
+model = pickle.load(open('model/model.pkl', 'rb'))
 #mean values
 keywordsLvl = 10.85
 waterLvl = 17.08
@@ -131,5 +129,5 @@ def predict_pdf():
         return render_template('predict_file.html')
 
 
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+#if __name__ == "__main__":
+#    app.run(debug=True, host='0.0.0.0')
