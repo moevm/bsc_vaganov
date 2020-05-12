@@ -53,13 +53,22 @@
     {% endif %}
     </div>
   <div>
+  <br>
+      {% if recommends %}
       <h1>Результат</h1>
-        {% for row in recommends %}
-            <div class="w3-panel w3-gray">
-                <h3> {{ row }}</h3>
-            </div>
-        {% endfor %}
-  </div>
+      {% for recommend in recommends %}
+          {% if recommend.result %}
+              <div class="w3-panel w3-pale-green">
+          {% else %}
+              <div class="w3-panel w3-pale-red">
+          {% endif %}
+          <h3>{{ recommend.criteria }} :</h3>
+          <p>Рекомендуемый диапазон: {{ recommend.range }}</p>
+          <p>Ваш уровень: {{ recommend.lvl }}</p>
+          <h3> {{ recommend.text }}</h3>
+      </div>
+      {% endfor %}
+      {% endif %}
   </div>
 </div>
 {% endblock %}
