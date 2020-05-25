@@ -1,9 +1,9 @@
 import requests
 import json
 
-client_id = "b137bf0a83b75afff254"
-client_secret = "2710d9a68d2a0f52ba8fc6460eef1bfd18094a61"
-token = "f01d9ed0ab21001233c8ff58c7566338412dd416"
+client_id = ""
+client_secret = ""
+token = ""
 base = "https://api.github.com/"
 get_contents = "repos/moevm/scientific_writing-2019/contents/"
 PARAMS = {'note': "somethings",
