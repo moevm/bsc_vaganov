@@ -1,6 +1,6 @@
 bs4==0.0.1
 pandas
-numpy==1.18.2
+numpy==1.22.0
 sklearn
 flask
 pymorphy2==0.8
